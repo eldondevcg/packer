@@ -140,7 +140,7 @@ func (s *StepMountDevice) CleanupFunc(state multistep.StateBag) error {
 	if err := cmd.Run(); err != nil {
 		unmountRecursiveCommand, err := wrappedCommand(fmt.Sprintf("umount -R %s", s.mountPath))
 		recursiveCmd := ShellCommand(unmountRecursiveCommand)
-		if err := recursiveCmd.Run(); err != nil {
+		if recursiveErr := recursiveCmd.Run(); recursiveErr != nil {
 			return fmt.Errorf("Error unmounting root device: %s", err)
 		}
 	}
